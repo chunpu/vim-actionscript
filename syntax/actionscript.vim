@@ -60,7 +60,6 @@ syn keyword actionScriptCommunication		contentType getBytesLoaded getBytesTotal 
 syn keyword actionScriptXMLSocket			close connect onClose onConnect onData onXML
 syn keyword actionScriptTextField			autoSize background backgroundColor border borderColor bottomScroll embedFonts _focusrect getDepth getFontList getNewTextFormat getTextFormat hscroll html htmlText maxChars maxhscroll maxscroll multiline onChanged onScroller onSetFocus _parent password _quality removeTextField replaceSel replaceText restrict selectable setNewTextFormat setTextFormat text textColor textHeight textWidth type variable wordWrap condenseWhite mouseWheelEnabled textFieldHeight textFieldWidth ascent descent
 syn keyword actionScriptMethods				callee caller _alpha attachMovie beginFill beginGradientFill clear createEmptyMovieClip createTextField _currentframe curveTo _droptarget duplicateMovieClip enabled endFill focusEnabled _framesloaded getBounds globalToLocal gotoAndPlay gotoAndStop _height _highquality hitArea hitTest lineStyle lineTo loadMovie loadMovieNum loadVariables loadVariablesNum localToGlobal moveTo _name nextFrame onDragOut onDragOver onEnterFrame onKeyDown onKeyUp onKillFocus onMouseDown onMouseMove onMouseUp onPress onRelease onReleaseOutside onRollOut onRollOver onUnload play prevFrame removeMovieClip _rotation setMask _soundbuftime startDrag stopDrag swapDepths tabChildren tabIndex _target _totalframes trackAsMenu unloadMovie unloadMovieNum updateAfterEvent _url useHandCursor _visible _width _x _xmouse _xscale _y _ymouse _yscale tabEnabled asfunction call setInterval clearInterval setProperty stopAllSounds #initclip #endinitclip delete unescape escape eval apply prototype getProperty getTimer getURL getVersion ifFrameLoaded #include instanceof int new nextScene parseFloat parseInt prevScene print printAsBitmap printAsBitmapNum printNum scroll set targetPath tellTarget toggleHighQuality trace typeof isActive getInstanceAtDepth getNextHighestDepth getNextDepth getSWFVersion getTextSnapshot isFinite isNAN updateProperties _lockroot get install list uninstall showMenu onSelect builtInItems save zoom quality loop rewind forward_back customItems caption separatorBefore visible attachVideo bufferLength bufferTime currentFps onStatus pause seek setBuffertime smoothing time bytesLoaded bytesTotal addPage paperWidth paperHeight pageWidth pageHeight orientation loadClip unloadClip getProgress onLoadStart onLoadProgress onLoadComplete onLoadInit onLoadError styleSheet copy hideBuiltInItem transform activityLevel allowDomain allowInsecureDomain attachAudio bandwidth deblocking domain flush fps gain getLocal getRemote getSize index isConnected keyFrameInterval liveDelay loopback motionLevel motionTimeOut menu muted names onActivity onSync publish rate receiveAudio receiveVideo setFps setGain setKeyFrameInterval setLoopback setMode setMotionLevel setQuality setRate setSilenceLevel setUseEchoSuppression showSettings setClipboard silenceLevel silenceTimeOut useEchoSuppression
-syn match   actionScriptBraces				"([{}])"
 syn keyword actionScriptException 			try catch finally throw name message
 syn keyword actionScriptXML					attributes childNodes cloneNode createElement createTextNode docTypeDecl status firstChild hasChildNodes lastChild insertBefore nextSibling nodeName nodeType nodeValue parentNode parseXML previousSibling removeNode xmlDecl ignoreWhite
 syn keyword actionScriptArrayConstant 		CASEINSENSITIVE DESCENDING UNIQUESORT RETURNINDEXEDARRAY NUMERIC
@@ -86,10 +85,12 @@ syn keyword actionScriptInclude #include #initClip #endInitClip
 syn keyword as3Errors EOFError  IllegalOperationError  IOError  MemoryError  ScriptTimeoutError  StackOverflowError ArgumentError DefinitionError EvalError RangeError ReferenceError SecurityError SyntaxError TypeError URIError VerifyError VideoError InvalidSWFError
 syn keyword as3Events	DataEvent ErrorEvent Event ScrollEvent ProgressEvent SecurityErrorEvent ComponentEvent ProgressEvent IOErrorEvent ComponentEvent ColorPickerEvent ListEvent MouseEvent TextEvent DataChangeEvent HTTPStatusEvent IMEEvent TimerEvent TweenEvent AutoLayoutEvent CaptionChangeEvent CaptionTargetEvent SoundEvent VideoEvent  SkinErrorEvent LayoutEvent VideoProgressEvent MetadataEvent IVPEvent KeyboardEvent FocusEvent FullScreenEvent AsyncErrorEvent FocusEvent KeyboardEvent NetStatusEvent StatusEvent SyncEvent DataGridEvent SliderEvent
 
-" catch errors caused by wrong parenthesis
-syn match   actionScriptInParen     contained "[{}]"
-syn region  actionScriptParen       transparent start="(" end=")" contains=actionScriptParen,actionScript.*
-syn match   actionScrParenError  ")"
+" Use Javascript Braces, Parens, symbols, colons
+syntax match javaScriptBraces       "[{}\[\]]"
+syntax match javaScriptParens       "[()]"
+syntax match javaScriptOpSymbols    "=\{1,3}\|!==\|!=\|<\|>\|>=\|<=\|++\|+=\|--\|-="
+syntax match javaScriptEndColons    "[;,]"
+syntax match javaScriptLogicSymbols "\(&&\)\|\(||\)"
 
 if main_syntax == "actionscript"
   syn sync ccomment actionScriptComment
@@ -105,6 +106,8 @@ if version >= 508 || !exists("did_actionscript_syn_inits")
   else
     command -nargs=+ HiLink hi def link <args>
   endif
+
+
   HiLink actionScriptComment		Comment
   HiLink actionScriptLineComment	Comment
   HiLink actionScriptSpecial		Special
@@ -151,7 +154,7 @@ if version >= 508 || !exists("did_actionscript_syn_inits")
   HiLink actionScriptEventConstant	Constant
   HiLink actionScriptTextSnapshot	Type
   HiLink actionScriptID3		Type
-  HiLink actionScriptAS2		Function
+  HiLink actionScriptAS2		Keyword
   HiLink actionScriptStyleSheet		Type
   HiLink flash8Constants		Constant
   HiLink flash8Functions		Function
